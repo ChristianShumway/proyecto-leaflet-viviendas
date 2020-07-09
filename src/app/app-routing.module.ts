@@ -1,11 +1,24 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { LayoutComponent } from './views/layout/layout.component';
 
-
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'mapa',
+        loadChildren: () => import('./views/mapa/mapa.module').then( m => m.MapaModule) 
+      }
+    ]
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    preloadingStrategy: PreloadAllModules
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

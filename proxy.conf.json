@@ -1,0 +1,7 @@
+{
+  "/leaflet_web/*": {
+    "target": "http://10.106.12.178:8084/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
