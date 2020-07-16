@@ -77,7 +77,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "proyecto-leaflet:build:production"
+              "browserTarget": "proyecto-leaflet:build:production",
+              "proxyConfig": "./proxy.conf.json"
             }
           }
         },
