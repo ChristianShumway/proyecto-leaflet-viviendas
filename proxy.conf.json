@@ -1,0 +1,17 @@
+{
+  "/leaflet_web/*": {
+    "target": "http://10.106.12.178:8084/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/geoserver/*": {
+    "target": "http://10.106.12.120:8080/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/NLB_CE/*": {
+    "target": "https://gaia.inegi.org.mx/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

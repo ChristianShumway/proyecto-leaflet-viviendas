@@ -1,0 +1,32 @@
+<mat-accordion>
+  <mat-expansion-panel [(expanded)]="panelOpenState">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Acciones
+      </mat-panel-title>
+      <mat-panel-description *ngIf="listaViviendas">
+        Hay <span class="space5" [ngStyle] = "{'color': livingPlaceCount === listaViviendas.length ? 'green' : 'red' }"> {{livingPlaceCount}} </span> vivienda(s) recorrida(s) de <span class=" space5 total-living-place"> {{listaViviendas.length}}</span> existentes.
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="padTop15">
+      <button 
+      *ngIf="listaViviendas" 
+      (click)="printMapViviendas()"
+      mat-flat-button 
+      color="primary"
+      >Recorrer Viviendas</button>
+    </div>
+    
+  </mat-expansion-panel>
+  
+</mat-accordion>
+
+<mat-card class="container-map"> 
+  <div class="map-container">
+    <div class="map-frame">
+      <div id="map"></div>
+    </div>
+  </div>
+</mat-card>
+
+
