@@ -8,7 +8,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'mapa',
+        path: 'mapa/:cveEnt/:cveEnc',
         loadChildren: () => import('./views/mapa/mapa.module').then( m => m.MapaModule) 
       }
     ]
@@ -17,7 +17,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    preloadingStrategy: PreloadAllModules
+    preloadingStrategy: PreloadAllModules,
+    useHash: true
   })],
   exports: [RouterModule]
 })

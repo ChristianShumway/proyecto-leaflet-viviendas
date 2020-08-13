@@ -4,6 +4,7 @@ import * as PouchDB from '../../../../../../node_modules/pouchdb/dist/pouchdb.js
 
 import { MapaService } from '../../../../shared/services/mapa.service';
 import { environment } from './../../../../../environments/environment';
+import { ActivatedRoute, Params } from '@angular/router';
 
 const leafletcached = require("../../../../../assets//librerias_externas/pouchdbcached.js");
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
@@ -41,7 +42,8 @@ export class MapaComponent implements OnInit, AfterViewInit {
   cveEnc;
 
   constructor(
-    private mapaService: MapaService
+    private mapaService: MapaService,
+    private activatedRoute: ActivatedRoute
   ) { console.log(PouchDB)}
 
   ngOnInit() {
@@ -53,38 +55,45 @@ export class MapaComponent implements OnInit, AfterViewInit {
   }
 
   getViviendas(){
-    this.cveEnt = '01';
-    this.cveEnc = '765';
-    this.mapaService.getViviendas(this.cveEnt, this.cveEnc)
-    .then(
-      response =>  {
-        this.listaViviendas = response;
-        let markerArray = [];
-        console.log(this.listaViviendas);
-        
-        response.map( vivienda => {
-          const color = vivienda.color.replace(/ /g,",");
-          const geoGeojson = JSON.parse(vivienda.geojson_geo);
-          const lat = JSON.parse(geoGeojson.coordinates[0]);
-          const lon = JSON.parse(geoGeojson.coordinates[1]);
-          const circle = L.circleMarker([lon, lat], {
-            radius: 20,
-            color: `rgba(${color})`,
-          });
-          
-          circle.bindPopup(this.mapaService.makePopup(lat, lon));
-          circle.addTo(this.map);
-          this.latLonViviendas.push(circle._latlng);
-          markerArray.push(L.marker([lon, lat]));
-        });
+    this.activatedRoute.params.subscribe ( (params:Params) => {
+      console.log(params);
+      this.cveEnt = params.cveEnt;
+      this.cveEnc = params.cveEnc;
 
-        const group = L.featureGroup(markerArray);
-        this.map.fitBounds(group.getBounds());
-      }
-    ).catch(  error => console.log(error) )
+      this.mapaService.getViviendas(this.cveEnt, this.cveEnc)
+      .then(
+        response =>  {
+          this.listaViviendas = response;
+          let markerArray = [];
+          console.log(this.listaViviendas);
+          
+          response.map( vivienda => {
+            const color = vivienda.color.replace(/ /g,",");
+            const geoGeojson = JSON.parse(vivienda.geojson_geo);
+            const lat = JSON.parse(geoGeojson.coordinates[0]);
+            const lon = JSON.parse(geoGeojson.coordinates[1]);
+            const circle = L.circleMarker([lon, lat], {
+              radius: 20,
+              color: `rgba(${color})`,
+            });
+            
+            circle.bindPopup(this.mapaService.makePopup(lat, lon));
+            circle.addTo(this.map);
+            this.latLonViviendas.push(circle._latlng);
+            markerArray.push(L.marker([lon, lat]));
+          });
+  
+          const group = L.featureGroup(markerArray);
+          this.map.fitBounds(group.getBounds());
+        }
+      ).catch(  error => console.log(error) )
+    });
+    // this.cveEnt = '01';
+    // this.cveEnc = '765';
   }
 
   printMapViviendas(){
+    this.livingPlaceCount = 0;
     let offset = 0;
     this.panelOpenState = false;
 
