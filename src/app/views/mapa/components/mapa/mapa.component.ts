@@ -111,8 +111,8 @@ export class MapaComponent implements OnInit, AfterViewInit {
         }
 
         console.log(vivienda);
-      }, 1000 + offset );
-      offset += 1000;
+      }, 5000 + offset );
+      offset += 5000;
     });
   }
 
